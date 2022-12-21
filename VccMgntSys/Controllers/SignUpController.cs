@@ -37,7 +37,6 @@ namespace VccMgntSys.Controllers
                 return BadRequest();
             }
 
-            createCitizen.Password = MyRSAEncrytion.GenerateRSAEncryption(createCitizen.Password);
             Citizen citizen = new Citizen()
             {
                 CitizenID = createCitizen.CitizenID,
@@ -82,8 +81,6 @@ namespace VccMgntSys.Controllers
                 }
             }
 
-            createManager.Password = MyRSAEncrytion.GenerateRSAEncryption(createManager.Password);
-
             Manager manager = new Manager()
             {
                 Name = createManager.Name,
@@ -126,7 +123,6 @@ namespace VccMgntSys.Controllers
                 }
             }
 
-            createStaff.Password = MyRSAEncrytion.GenerateRSAEncryption(createStaff.Password);
             Staff staff = new Staff()
             {
                 Name = createStaff.Name,
@@ -170,7 +166,6 @@ namespace VccMgntSys.Controllers
                 }
             }
 
-            createAdmin.Password = MyRSAEncrytion.GenerateRSAEncryption(createAdmin.Password);
             Admin admin = new Admin()
             {
                 Name = createAdmin.Name,

@@ -35,7 +35,7 @@ namespace VccMgntSys.Controllers
                 return NotFound();
             }
 
-            if(manager.Password != MyRSAEncrytion.GenerateRSAEncryption(loginManager.Password))
+            if(manager.Password == loginManager.Password)
             {
                 return BadRequest("Invalid credentials");
             }
@@ -52,7 +52,7 @@ namespace VccMgntSys.Controllers
             {
                 return NotFound();
             }
-            if (staff.Password !=  MyRSAEncrytion.GenerateRSAEncryption(loginStaff.Password))
+            if (staff.Password !=  loginStaff.Password)
             {
                 return BadRequest("Invalid credentials");
             }
@@ -68,7 +68,7 @@ namespace VccMgntSys.Controllers
             {
                 return NotFound();
             }
-            if (admin.Password != MyRSAEncrytion.GenerateRSAEncryption(loginAdmin.Password))
+            if (admin.Password != loginAdmin.Password)
             {
                 return BadRequest("Invalid credentials");
             }
@@ -84,7 +84,7 @@ namespace VccMgntSys.Controllers
             {
                 return NotFound();
             }
-            if (citizen.Password != MyRSAEncrytion.GenerateRSAEncryption(loginCitizen.Password))
+            if (citizen.Password != loginCitizen.Password)
             {
                 return BadRequest("Invalid credentials");
             }
