@@ -46,8 +46,8 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpPost]
-        [Route("{managerid:guid}")]
-        public async Task<IActionResult> SaveManager([FromRoute] Guid managerid)
+        [Route("managers")]
+        public async Task<IActionResult> SaveManager(Guid managerid)
         {
             var tempman = await this.mainDatabase.tempManagers.FindAsync(managerid);
             
@@ -117,8 +117,8 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpPost]
-        [Route("{staffid:guid}")]
-        public async Task<IActionResult> SaveStaff([FromRoute] Guid staffid)
+        [Route("staff")]
+        public async Task<IActionResult> SaveStaff(Guid staffid)
         {
             var tempsta = await this.mainDatabase.tempStaff.FindAsync(staffid);
 
@@ -249,9 +249,9 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpDelete]
-        [Route("{programid:guid}")]
+        [Route("programid")]
 
-        public async Task<IActionResult> DeleteProgram([FromRoute] VaccineProgram programid)
+        public async Task<IActionResult> DeleteProgram(VaccineProgram programid)
         {
             var program = await this.mainDatabase.vaccinePrograms.FindAsync(programid);
 
@@ -341,11 +341,32 @@ namespace VccMgntSys.Controllers
             {
                 return BadRequest("Admin is not superadmin");
             }
+        }
+        /*
+        [HttpGet]
+        [Route("makethesuperadmin")]
 
+        public async Task<IActionResult> MaketheFirstSuperAdmin()
+        {
+            Admin superAdmin = new Admin()
+            {
+                Name = "The Admin",
+                DateofBirth = "01/01/1998",
+                Address = "Faculty of Engineering",
+                IsSuperAdmin = true,
+                Email = "superadmin@gmail.com",
+                JobDescription = "The Super Admin",
+                Password = "Admin123",
+                PhoneNumber = 125478963,
+                StringCitizenID = "123654789"
+            };
 
+            await mainDatabase.admins.AddAsync(superAdmin);
+            await this.mainDatabase.SaveChangesAsync();
+            return Ok();
         }
 
-        /*
+        
         public void ApproveAdmin()
         {
 

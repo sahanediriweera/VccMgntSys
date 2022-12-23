@@ -18,10 +18,10 @@ namespace VccMgntSys.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        [Route("{nextvccid:guid}")]
-        public async Task<IActionResult> NextVaccinationProgram([FromRoute] Guid nextvccid)
+        [Route("GetNextVaccineProgram")]
+        public async Task<IActionResult> NextVaccinationProgram(Guid staffID)
         {
-            var staff = await this.mainDatabase.staffs.FindAsync(nextvccid);
+            var staff = await this.mainDatabase.staffs.FindAsync(staffID);
             if (staff == null)
             {
                 return BadRequest();
@@ -52,9 +52,9 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpGet]
-        [Route("{patientguid:long}")]
+        [Route("GetPatientDetails")]
 
-        public async Task<IActionResult> GetCitizenDetails([FromRoute] long patientguid)
+        public async Task<IActionResult> GetCitizenDetails(long patientguid)
         {
             List<Citizen> citizens = await this.mainDatabase.citizens.ToListAsync();
 
@@ -75,6 +75,7 @@ namespace VccMgntSys.Controllers
 
             PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
             {
+                Id = citizen1.Id,
                 CitizenID = citizen1.CitizenID,
                 Name = citizen1.Name,
                 PhoneNumber = citizen1.PhoneNumber,
@@ -117,9 +118,9 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpPost]
-        [Route("{citizenguid:guid}")]
+        [Route("UpdatePatientVaccination")]
 
-        public async Task<IActionResult> UpdatePatientVaccination([FromRoute] Guid citizenguid)
+        public async Task<IActionResult> UpdatePatientVaccination(Guid citizenguid)
         {
             var citizen = await this.mainDatabase.citizens.FindAsync(citizenguid);
 
@@ -135,7 +136,7 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpPost]
-        [Route("vaccinebatches")]
+        [Route("CreateVaccineBatch")]
 
         public async Task<IActionResult> AddVaccineBatches(GetVaccineBatches getVaccineBatches)
         {
@@ -153,7 +154,7 @@ namespace VccMgntSys.Controllers
             await this.mainDatabase.vaccineBatches.AddAsync(vaccineBatch);
             await this.mainDatabase.SaveChangesAsync();
 
-            return Ok();
+            return Ok(vaccineBatch);
         }
 
         [HttpPost]

@@ -115,12 +115,10 @@ namespace VccMgntSys.Controllers
 
                 catch(Exception ex)
                 {
-
+                    return BadRequest(ex.Message);
                 }
             }
-
             return Ok(vaccineProgram);
-
         }
 
         [HttpGet]
@@ -152,7 +150,7 @@ namespace VccMgntSys.Controllers
                 }
             }
 
-            return Ok(vaccineBatches);
+            return Ok(vaccineBatchByType);
         }
 
         [HttpPost("send")]
@@ -161,18 +159,14 @@ namespace VccMgntSys.Controllers
             try
             {
                 await mailService.SendMailAsync(mailRequest);
-
                 return Ok();
             }
-
             catch (Exception ex)
             {
                 throw;
             }
         }
-
         [HttpGet("citizendetails")]
-
         public async Task<IActionResult> GetSuitableCitizen()
         {
             List<Citizen> citizens = await this.mainDatabase.citizens.ToListAsync();

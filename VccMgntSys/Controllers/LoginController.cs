@@ -35,7 +35,7 @@ namespace VccMgntSys.Controllers
                 return NotFound();
             }
 
-            if(manager.Password == loginManager.Password)
+            if(manager.Password != loginManager.Password)
             {
                 return BadRequest("Invalid credentials");
             }
@@ -47,7 +47,18 @@ namespace VccMgntSys.Controllers
 
         public async Task<IActionResult> LoginStaff(LoginStaff loginStaff)
         {
-            var staff = await this.mainDatabase.staffs.FindAsync(loginStaff.Email);
+            var staffs = await this.mainDatabase.staffs.ToListAsync();
+
+            Staff staff = null;
+
+            foreach (Staff staffer in staffs) 
+            {
+                if(staffer.Email == loginStaff.Email)
+                {
+                    staff = staffer;
+                }
+            }
+
             if (staff == null)
             {
                 return NotFound();
@@ -63,7 +74,17 @@ namespace VccMgntSys.Controllers
 
         public async Task<IActionResult> LoginAdmin(LoginAdmin loginAdmin)
         {
-            var admin = await this.mainDatabase.admins.FindAsync(loginAdmin.Email);
+            var admins = await this.mainDatabase.admins.ToListAsync();
+            Admin? admin = null;
+
+            foreach(Admin adminer in admins)
+            {
+                if(adminer.Email == loginAdmin.Email)
+                {
+                    admin = adminer;
+                }
+            }
+
             if (admin == null)
             {
                 return NotFound();
@@ -79,7 +100,18 @@ namespace VccMgntSys.Controllers
 
         public async Task<IActionResult> LoginCitizen(LoginCitizen loginCitizen)
         {
-            var citizen = await this.mainDatabase.citizens.FindAsync(loginCitizen.Email);
+            var citizens = await this.mainDatabase.citizens.ToListAsync();
+
+            Citizen? citizen = null;
+
+            foreach(Citizen citizener in citizens)
+            {
+                if(citizener.EmailAddress == loginCitizen.Email)
+                {
+                    citizen = citizener;
+                }
+            }
+
             if (citizen == null)
             {
                 return NotFound();

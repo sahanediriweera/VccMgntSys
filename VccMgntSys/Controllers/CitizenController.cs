@@ -17,14 +17,14 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> ViewCitizenDetails(Guid id,ViewCitizenDetails viewCitizenDetails)
+        [Route("GetDetails")]
+        public async Task<IActionResult> ViewCitizenDetails(Guid id)
         {
+            ViewCitizenDetails viewCitizenDetails = new ViewCitizenDetails();
+
             var citizen = await this.mainDatabase.citizens.FindAsync(id);
 
             if(citizen == null) { return NotFound(); }
-
-
             viewCitizenDetails.CitizenID = citizen.CitizenID;
             viewCitizenDetails.Name = citizen.Name;
             viewCitizenDetails.Address = citizen.Address;
@@ -39,10 +39,10 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpPost]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> ChangeDate([FromRoute] Guid id,Citizen? citizen)
+        [Route("ChangeVaccineDate")]
+        public async Task<IActionResult> ChangeDate( Guid id)
         {
-            citizen = await this.mainDatabase.citizens.FindAsync(id);
+            Citizen? citizen = await this.mainDatabase.citizens.FindAsync(id);
 
             if(citizen==null) 
             { 
@@ -53,13 +53,9 @@ namespace VccMgntSys.Controllers
             mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await mainDatabase.SaveChangesAsync();
             return Ok(citizen);
-
-
         }
-
-
         [HttpGet]
-        [Route("{no:guid}")]
+        [Route("GetVaccineDate")]
         public async Task<IActionResult> VaccineDate(Guid no)
         {
 
@@ -72,14 +68,20 @@ namespace VccMgntSys.Controllers
 
             String? date = citizen.VaccinationDate;
 
-            if (date != null)
+            if (date == null || date == "")
             {
                 return NotFound("No vaccination date");
             }
 
-            String[] alldates = date.Split(",");
+            try
+            {
+                String[] alldates = date.Split(",");
+                return Ok(alldates[alldates.Length - 1]);
 
-            return Ok(alldates[alldates.Length-1]);
+            }catch (Exception)
+            {
+                return BadRequest();
+            }
         }
         
     }

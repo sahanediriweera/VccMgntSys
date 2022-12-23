@@ -10,8 +10,6 @@
 
         public int Count { get; set; }
 
-        public virtual ICollection<VaccineProgram> VaccinePrograms { get; set; }
-
         public String BatchId { get; set; }
     }
 }
