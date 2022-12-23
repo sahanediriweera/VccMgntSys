@@ -19,7 +19,7 @@ namespace VccMgntSys.Controllers
 
         [HttpPost]
         [Route("createprogram")]
-
+        
         public async Task<IActionResult> CreateProgram(CreateProgramData createProgramData)
         {
             List<Citizen> citizenguids = new List<Citizen>();
@@ -27,15 +27,15 @@ namespace VccMgntSys.Controllers
             String[] citizenIDs = createProgramData.CitizenIDs.Split(',');
             foreach(String CitizenId in citizenIDs)
             {
-                var item = await this.mainDatabase.citizens.FindAsync(Guid.Parse(CitizenId));
-                if(item != null)
+                Citizen? citizen = await this.mainDatabase.citizens.FindAsync(Guid.Parse(CitizenId));
+                if(citizen != null)
                 {
-                    citizenguids.Add(item);
-                    String currentdates = item.VaccinationDate;
-                    item.Pending = true;
+                    citizenguids.Add(citizen);
+                    String currentdates = citizen.VaccinationDate;
+                    citizen.Pending = true;
                     currentdates = currentdates +","+ createProgramData.Date;
-                    item.VaccinationDate = currentdates;
-                    this.mainDatabase.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    citizen.VaccinationDate = currentdates;
+                    this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 }
 
             }
@@ -45,10 +45,10 @@ namespace VccMgntSys.Controllers
 
             foreach(String VaccineId in vaccineIds)
             {
-                var item = await this.mainDatabase.vaccineBatches.FindAsync(Guid.Parse(VaccineId));
-                if( item != null)
+                VaccineBatch vaccineBatch = await this.mainDatabase.vaccineBatches.FindAsync(Guid.Parse(VaccineId));
+                if(vaccineBatch != null)
                 {
-                    vaccineguids.Add(item);
+                    vaccineguids.Add(vaccineBatch);
                 }
             }
 
@@ -58,10 +58,10 @@ namespace VccMgntSys.Controllers
 
             foreach (String staffId in staffIds)
             {
-                var item = await this.mainDatabase.staffs.FindAsync(staffId);
-                if(item != null)
+                Staff? staff = await this.mainDatabase.staffs.FindAsync(Guid.Parse(staffId));
+                if(staff != null)
                 {
-                    staffguids.Add(item);
+                    staffguids.Add(staff);
                 }
                 
             }
@@ -77,27 +77,42 @@ namespace VccMgntSys.Controllers
                 Manager = manager
             };
 
+
             foreach(var vaccineBatch in vaccineguids)
             {
-                var item = await this.mainDatabase.vaccineBatches.FindAsync(vaccineBatch.Id);
+                VaccineBatch? vaccineBatch1 = await this.mainDatabase.vaccineBatches.FindAsync(vaccineBatch.Id);
 
-                if(item == null)
+                if(vaccineBatch1 != null)
                 {
-                    item.VaccinePrograms.Add(vaccineProgram);
+                    ICollection<VaccineProgram> vaccinePrograms = new List<VaccineProgram>();
+                    vaccinePrograms.Add(vaccineProgram);
+                    vaccineBatch1.VaccinePrograms = vaccinePrograms;
                 }
             }
+
 
             foreach(var staff in staffguids)
             {
-                var item = await this.mainDatabase.staffs.FindAsync(staff.Id);
+                Staff? staff1 = await this.mainDatabase.staffs.FindAsync(staff.Id);
 
-                if(item != null)
+                if(staff1 == null)
                 {
-                    item.VaccinePrograms.Add(vaccineProgram);
+                    return BadRequest();
+                }
+
+                if(staff1.VaccinePrograms == null)
+                {
+                    staff1.VaccinePrograms = new VaccineProgram[0];
+                }
+
+                if(staff1 != null)
+                {
+
+                    ICollection<VaccineProgram> vaccinePrograms = new List<VaccineProgram>();
+                    vaccinePrograms.Add(vaccineProgram);
+                    staff1.VaccinePrograms = vaccinePrograms;
                 }
             }
-            await this.mainDatabase.vaccinePrograms.AddAsync(vaccineProgram);
-            await this.mainDatabase.SaveChangesAsync();
             
             foreach(Citizen citizen in citizenguids)
             {
@@ -118,9 +133,11 @@ namespace VccMgntSys.Controllers
                     return BadRequest(ex.Message);
                 }
             }
+            await this.mainDatabase.vaccinePrograms.AddAsync(vaccineProgram);
+            await this.mainDatabase.SaveChangesAsync();
             return Ok(vaccineProgram);
         }
-
+        
         [HttpGet]
         [Route("currentstatistics")]
         public async Task<IActionResult> CurrentStatistics()

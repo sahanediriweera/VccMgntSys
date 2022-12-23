@@ -166,17 +166,12 @@ namespace VccMgntSys.Controllers
             VaccineProgram? vaccineProgram = await this.mainDatabase.vaccinePrograms.FindAsync(updateCitizenProgram.VaccineProgramID);
 
             if (citizen == null | vaccineProgram == null) { return BadRequest(); }
-
             DateTime date = DateTime.Today;
-
             citizen.VaccineProgram.Add(vaccineProgram);
             citizen.VaccinationCount += 1;
             citizen.VaccinationDate = citizen.VaccinationDate + "," + date.ToString();
-
             this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
             await this.mainDatabase.SaveChangesAsync();
-
             return Ok();
         }
 
