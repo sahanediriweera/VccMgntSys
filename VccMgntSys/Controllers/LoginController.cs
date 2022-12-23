@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using VccMgntSys.Models;
 using VccMgntSys.Security;
+using Microsoft.AspNetCore.Cors;
 
 namespace VccMgntSys.Controllers
 {
     [ApiController]
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
