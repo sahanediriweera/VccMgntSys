@@ -12,11 +12,7 @@ namespace VccMgntSys.Models
 
         public String Password { get; set; }
 
-        public String DateofBirth { get; set; }
-
-        public String Address { get; set; }
-
-        public String JobDescription { get; set; }
+        public String ConfirmPassword { get; set; }
 
         public String CitizenID { get; set; }
     }

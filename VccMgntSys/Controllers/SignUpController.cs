@@ -41,11 +41,11 @@ namespace VccMgntSys.Controllers
             {
                 CitizenID = createCitizen.CitizenID,
                 Name = createCitizen.Name,
-                PhoneNumber = createCitizen.PhoneNumber,
+                PhoneNumber = 125478,
                 Password = createCitizen.Password,
                 EmailAddress = createCitizen.EmailAddress,
-                BirthDate = createCitizen.BirthDay,
-                Address = createCitizen.Address,
+                BirthDate = "01/01/1999",
+                Address = "Galle",
                 VaccinationCount = 0,
                 Pending = false
             };
@@ -84,13 +84,13 @@ namespace VccMgntSys.Controllers
             Manager manager = new Manager()
             {
                 Name = createManager.Name,
-                Address = createManager.Address,
-                PhoneNumber = createManager.PhoneNumber,
-                DateofBirth = createManager.DateofBirth,
+                Address = "Galle",
+                PhoneNumber = 456879,
+                DateofBirth = "01/01/1996",
                 Email = createManager.Email,
                 Password = createManager.Password,
-                JobDescription = createManager.JobDescription,
-                HospitalID = createManager.HospitalID,
+                JobDescription = "Doctor",
+                HospitalID = createManager.CitizenID,
             };
 
             await this.mainDatabase.tempManagers.AddAsync(manager);
@@ -126,14 +126,14 @@ namespace VccMgntSys.Controllers
             Staff staff = new Staff()
             {
                 Name = createStaff.Name,
-                Address = createStaff.Address,
-                PhoneNumber = createStaff.PhoneNumber,
+                Address = "Galle",
+                PhoneNumber = 789654,
                 Password = createStaff.Password,
                 CitizenId = createStaff.CitizenId,
-                HospitalId = createStaff.HospitalId,
+                HospitalId = "123545",
                 Email = createStaff.Email,
-                DateofBirth = createStaff.DateofBirth,
-                JobDescription = createStaff.JobDescription,
+                DateofBirth = "01/02/1997",
+                JobDescription = "Operator",
             };
 
             await mainDatabase.tempStaff.AddAsync(staff);
@@ -169,13 +169,13 @@ namespace VccMgntSys.Controllers
             Admin admin = new Admin()
             {
                 Name = createAdmin.Name,
-                DateofBirth = createAdmin.DateofBirth,
-                Address = createAdmin.Address,
+                DateofBirth = "01/02/1994",
+                Address = "Galle",
                 PhoneNumber = createAdmin.PhoneNumber,
                 Email = createAdmin.Email,
                 Password = createAdmin.Password,
                 StringCitizenID = createAdmin.CitizenID,
-                JobDescription = createAdmin.JobDescription,
+                JobDescription = "Administrator",
             };
 
             await mainDatabase.tempAdmins.AddAsync(admin);
