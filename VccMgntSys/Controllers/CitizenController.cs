@@ -16,13 +16,13 @@ namespace VccMgntSys.Controllers
             this.mainDatabase = mainDatabase;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetDetails")]
-        public async Task<IActionResult> ViewCitizenDetails(Guid id)
+        public async Task<IActionResult> ViewCitizenDetails(GetDetails getDetails)
         {
             ViewCitizenDetails viewCitizenDetails = new ViewCitizenDetails();
 
-            var citizen = await this.mainDatabase.citizens.FindAsync(id);
+            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
 
             if(citizen == null) { return NotFound(); }
             viewCitizenDetails.CitizenID = citizen.CitizenID;
@@ -40,9 +40,9 @@ namespace VccMgntSys.Controllers
 
         [HttpPost]
         [Route("ChangeVaccineDate")]
-        public async Task<IActionResult> ChangeDate( Guid id)
+        public async Task<IActionResult> ChangeDate(GetDetails getDetails)
         {
-            Citizen? citizen = await this.mainDatabase.citizens.FindAsync(id);
+            Citizen? citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
 
             if(citizen==null) 
             { 
@@ -54,12 +54,12 @@ namespace VccMgntSys.Controllers
             await mainDatabase.SaveChangesAsync();
             return Ok(citizen);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("GetVaccineDate")]
-        public async Task<IActionResult> VaccineDate(Guid no)
+        public async Task<IActionResult> VaccineDate(GetDetails getDetails)
         {
 
-            var citizen = await this.mainDatabase.citizens.FindAsync(no);
+            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
 
             if(citizen == null)
             {

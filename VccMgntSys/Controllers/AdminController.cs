@@ -47,9 +47,9 @@ namespace VccMgntSys.Controllers
 
         [HttpPost]
         [Route("managers")]
-        public async Task<IActionResult> SaveManager(Guid managerid)
+        public async Task<IActionResult> SaveManager(GetDetails getDetails)
         {
-            var tempman = await this.mainDatabase.tempManagers.FindAsync(managerid);
+            var tempman = await this.mainDatabase.tempManagers.FindAsync(getDetails.id);
             
             if (tempman == null)
             {
@@ -118,9 +118,9 @@ namespace VccMgntSys.Controllers
 
         [HttpPost]
         [Route("staff")]
-        public async Task<IActionResult> SaveStaff(Guid staffid)
+        public async Task<IActionResult> SaveStaff(GetDetails getDetails)
         {
-            var tempsta = await this.mainDatabase.tempStaff.FindAsync(staffid);
+            var tempsta = await this.mainDatabase.tempStaff.FindAsync(getDetails.id);
 
             if (tempsta == null)
             {
@@ -251,9 +251,9 @@ namespace VccMgntSys.Controllers
         [HttpDelete]
         [Route("programid")]
 
-        public async Task<IActionResult> DeleteProgram(VaccineProgram programid)
+        public async Task<IActionResult> DeleteProgram(GetDetails getDetails)
         {
-            var program = await this.mainDatabase.vaccinePrograms.FindAsync(programid);
+            var program = await this.mainDatabase.vaccinePrograms.FindAsync(getDetails.id);
 
             if (program == null) 
             { 

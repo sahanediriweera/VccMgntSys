@@ -171,7 +171,7 @@ namespace VccMgntSys.Controllers
                 Name = createAdmin.Name,
                 DateofBirth = "01/02/1994",
                 Address = "Galle",
-                PhoneNumber = createAdmin.PhoneNumber,
+                PhoneNumber = 11548822,
                 Email = createAdmin.Email,
                 Password = createAdmin.Password,
                 StringCitizenID = createAdmin.CitizenID,

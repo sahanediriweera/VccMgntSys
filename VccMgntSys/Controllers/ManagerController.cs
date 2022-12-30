@@ -226,6 +226,16 @@ namespace VccMgntSys.Controllers
             return Ok(selectedCitizens);
         }
 
+        [HttpGet]
+        [Route("getStaff")]
+
+        public async Task<IActionResult> GetStaff()
+        {
+            List<Staff> staffs = mainDatabase.staffs.ToList();
+
+            return Ok(staffs);
+        }
+
         /*
         public void CreateProgram() 
         {
