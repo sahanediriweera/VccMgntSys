@@ -4,9 +4,9 @@
     {
         public String Name { get; set; }
 
-        public long CitizenID { get; set; }
+        public String CitizenID { get; set; }
 
-        public String EmailAddress { get; set; }
+        public String Email { get; set; }
 
         public String Password { get; set; }
 

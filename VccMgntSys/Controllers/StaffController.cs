@@ -120,9 +120,9 @@ namespace VccMgntSys.Controllers
         [HttpPost]
         [Route("UpdatePatientVaccination")]
 
-        public async Task<IActionResult> UpdatePatientVaccination(Guid citizenguid)
+        public async Task<IActionResult> UpdatePatientVaccination(GetDetails getDetails)
         {
-            var citizen = await this.mainDatabase.citizens.FindAsync(citizenguid);
+            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails);
 
             if(citizen == null)
             {

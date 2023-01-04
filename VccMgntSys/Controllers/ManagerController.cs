@@ -188,7 +188,7 @@ namespace VccMgntSys.Controllers
         {
             List<Citizen> citizens = await this.mainDatabase.citizens.ToListAsync();
 
-            List<Citizen> selectedCitizens = new List<Citizen>();
+            List<PostCitizenDetails> selectedCitizens = new List<PostCitizenDetails>();
 
             foreach(var citizen in citizens)
             {
@@ -201,7 +201,24 @@ namespace VccMgntSys.Controllers
                 {
                     if(citizen.VaccinationCount == 0)
                     {
-                        selectedCitizens.Add(citizen);
+                        PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
+                        {
+                            VaccinationCount = citizen.VaccinationCount,
+                            Address = citizen.Address, 
+                            BirthDate = citizen.BirthDate,
+                            CitizenID = citizen.CitizenID,
+                            EmailAddress = citizen.EmailAddress,
+                            Id = citizen.Id,
+                            Name = citizen.Name,
+                            OtherDiseases = citizen.OtherDiseases,
+                            Pending = true,
+                            PhoneNumber = citizen.PhoneNumber,
+                            ReportData = citizen.ReportData,
+                            Status = citizen.Status,
+                            VaccinationDate = citizen.VaccinationDate,
+                            VaccineProgram = citizen.VaccineProgram
+                        };
+                        selectedCitizens.Add(postCitizenDetails);
                     }
 
                     else
@@ -216,7 +233,24 @@ namespace VccMgntSys.Controllers
 
                         if(result > 30)
                         {
-                            selectedCitizens.Add(citizen);
+                            PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
+                            {
+                                VaccinationCount = citizen.VaccinationCount,
+                                Address = citizen.Address,
+                                BirthDate = citizen.BirthDate,
+                                CitizenID = citizen.CitizenID,
+                                EmailAddress = citizen.EmailAddress,
+                                Id = citizen.Id,
+                                Name = citizen.Name,
+                                OtherDiseases = citizen.OtherDiseases,
+                                Pending = true,
+                                PhoneNumber = citizen.PhoneNumber,
+                                ReportData = citizen.ReportData,
+                                Status = citizen.Status,
+                                VaccinationDate = citizen.VaccinationDate,
+                                VaccineProgram = citizen.VaccineProgram
+                            };
+                            selectedCitizens.Add(postCitizenDetails);
                         }
                     }
                 }
@@ -231,9 +265,29 @@ namespace VccMgntSys.Controllers
 
         public async Task<IActionResult> GetStaff()
         {
-            List<Staff> staffs = mainDatabase.staffs.ToList();
+            List<Staff> staffs = await this.mainDatabase.staffs.ToListAsync();
 
-            return Ok(staffs);
+            List<PostStaff> postStaffs = new List<PostStaff>();
+
+            foreach(Staff staff in staffs)
+            {
+                PostStaff postStaff = new PostStaff()
+                {
+                     Address = staff.Address,
+                     CitizenId = staff.CitizenId,
+                     Id = staff.Id,
+                     DateofBirth = staff.DateofBirth,
+                     Email = staff.Email,
+                     HospitalId = staff.HospitalId,
+                     JobDescription = staff.JobDescription,
+                     Name = staff.Name,
+                     PhoneNumber = staff.PhoneNumber
+                };
+
+                postStaffs.Add(postStaff);
+            }
+
+            return Ok(postStaffs);
         }
 
         /*

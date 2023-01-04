@@ -26,7 +26,7 @@ namespace VccMgntSys.Controllers
 
             foreach(Citizen citizen1 in citizens)
             {
-                if(citizen1.EmailAddress == createCitizen.EmailAddress)
+                if(citizen1.EmailAddress == createCitizen.Email)
                 {
                     return BadRequest("User Already Exist");
                 }
@@ -39,11 +39,11 @@ namespace VccMgntSys.Controllers
 
             Citizen citizen = new Citizen()
             {
-                CitizenID = createCitizen.CitizenID,
+                CitizenID = Convert.ToInt64(createCitizen.CitizenID),
                 Name = createCitizen.Name,
                 PhoneNumber = 125478,
                 Password = createCitizen.Password,
-                EmailAddress = createCitizen.EmailAddress,
+                EmailAddress = createCitizen.Email,
                 BirthDate = "01/01/1999",
                 Address = "Galle",
                 VaccinationCount = 0,
@@ -129,7 +129,7 @@ namespace VccMgntSys.Controllers
                 Address = "Galle",
                 PhoneNumber = 789654,
                 Password = createStaff.Password,
-                CitizenId = createStaff.CitizenId,
+                CitizenId = createStaff.CitizenID,
                 HospitalId = "123545",
                 Email = createStaff.Email,
                 DateofBirth = "01/02/1997",
