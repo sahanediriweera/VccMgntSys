@@ -167,7 +167,9 @@ namespace VccMgntSys.Controllers
 
             if (citizen == null | vaccineProgram == null) { return BadRequest(); }
             DateTime date = DateTime.Today;
-            citizen.VaccineProgram.Add(vaccineProgram);
+            ICollection<VaccineProgram> vaccinePrograms = new List<VaccineProgram>();
+            vaccinePrograms.Add(vaccineProgram);
+            citizen.VaccineProgram = vaccinePrograms;
             citizen.VaccinationCount += 1;
             citizen.VaccinationDate = citizen.VaccinationDate + "," + date.ToString();
             this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
