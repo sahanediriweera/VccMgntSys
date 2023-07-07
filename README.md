@@ -57,13 +57,7 @@ Push your changes to your fork.
 Submit a pull request describing your changes.
 Please ensure that your code adheres to the project's coding guidelines and includes appropriate tests.
 
-License
-The COVID-19 Vaccination Management System is released under the MIT License. Please refer to the LICENSE file for more details.
-
-Contact
-For any inquiries or questions regarding the COVID-19 Vaccination Management System, please contact:
-
-Project Lead: Your Name
+Project Lead: Sahan Ediriweera
 Acknowledgments
 We would like to acknowledge the following resources and libraries that have been instrumental in the development of this project:
 
