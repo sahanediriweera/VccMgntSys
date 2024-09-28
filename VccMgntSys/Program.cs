@@ -26,7 +26,7 @@ builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MainDatabase>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase")));
+builder.Services.AddDbContext<MainDatabase>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("MainDatabase")));
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
 

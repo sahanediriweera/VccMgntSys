@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace VccMgntSys.Migrations
 {
-    public partial class initiation : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,16 +14,16 @@ namespace VccMgntSys.Migrations
                 name: "Admin",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateofBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsSuperAdmin = table.Column<bool>(type: "bit", nullable: false),
-                    StringCitizenID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    DateofBirth = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    JobDescription = table.Column<string>(type: "text", nullable: false),
+                    IsSuperAdmin = table.Column<bool>(type: "boolean", nullable: true),
+                    StringCitizenID = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,20 +34,20 @@ namespace VccMgntSys.Migrations
                 name: "citizens",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     CitizenID = table.Column<long>(type: "bigint", nullable: false),
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VaccinationCount = table.Column<int>(type: "int", nullable: false),
-                    BirthDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VaccinationDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReportData = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OtherDiseases = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Pending = table.Column<bool>(type: "bit", nullable: false)
+                    EmailAddress = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    VaccinationCount = table.Column<int>(type: "integer", nullable: false),
+                    BirthDate = table.Column<string>(type: "text", nullable: false),
+                    VaccinationDate = table.Column<string>(type: "text", nullable: true),
+                    ReportData = table.Column<string>(type: "text", nullable: true),
+                    OtherDiseases = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    Pending = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,15 +58,15 @@ namespace VccMgntSys.Migrations
                 name: "Manager",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateofBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DateofBirth = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    JobDescription = table.Column<string>(type: "text", nullable: false),
+                    HospitalID = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,15 +77,15 @@ namespace VccMgntSys.Migrations
                 name: "Staff",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateofBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CitizenId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DateofBirth = table.Column<string>(type: "text", nullable: false),
+                    HospitalId = table.Column<string>(type: "text", nullable: false),
+                    JobDescription = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    CitizenId = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -96,9 +97,9 @@ namespace VccMgntSys.Migrations
                 name: "statistics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Datadate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Datadate = table.Column<string>(type: "text", nullable: false),
                     VaccinatedCitizens = table.Column<long>(type: "bigint", nullable: false),
                     TotalVaccinations = table.Column<long>(type: "bigint", nullable: false),
                     TotalPrograms = table.Column<long>(type: "bigint", nullable: false)
@@ -112,12 +113,12 @@ namespace VccMgntSys.Migrations
                 name: "vaccineBatches",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpirationDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProducedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false),
-                    BatchId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    ExpirationDate = table.Column<string>(type: "text", nullable: false),
+                    ProducedDate = table.Column<string>(type: "text", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false),
+                    BatchId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,10 +129,10 @@ namespace VccMgntSys.Migrations
                 name: "vaccinePrograms",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Location = table.Column<string>(type: "text", nullable: false),
+                    Date = table.Column<string>(type: "text", nullable: false),
+                    ManagerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,8 +149,8 @@ namespace VccMgntSys.Migrations
                 name: "CitizenVaccineProgram",
                 columns: table => new
                 {
-                    CitizensId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VaccineProgramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CitizensId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VaccineProgramId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,11 +173,11 @@ namespace VccMgntSys.Migrations
                 name: "messages",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MessageDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CitizenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VaccineProgramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Confirm = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageDate = table.Column<string>(type: "text", nullable: false),
+                    CitizenId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VaccineProgramId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Confirm = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,8 +200,8 @@ namespace VccMgntSys.Migrations
                 name: "StaffVaccineProgram",
                 columns: table => new
                 {
-                    StaffsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VaccineProgramsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    StaffsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VaccineProgramsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,8 +224,8 @@ namespace VccMgntSys.Migrations
                 name: "VaccineBatchVaccineProgram",
                 columns: table => new
                 {
-                    VaccineBatchesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VaccineProgramsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    VaccineBatchesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VaccineProgramsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
