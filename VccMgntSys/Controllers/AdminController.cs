@@ -56,31 +56,21 @@ namespace VccMgntSys.Controllers
                 return BadRequest();
             }
 
-            Manager manager = new Manager()
-            {
-                Name = tempman.Name,
-                Address = tempman.Address,
-                DateofBirth = tempman.DateofBirth,
-                Email = tempman.Email,
-                HospitalID = tempman.HospitalID,
-                JobDescription = tempman.JobDescription,
-                Password = tempman.Password,
-                PhoneNumber = tempman.PhoneNumber
-            };
+            tempman.isApproved = true;
 
-            await this.mainDatabase.managers.AddAsync(manager);
+            mainDatabase.Entry(tempman).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await this.mainDatabase.SaveChangesAsync();
 
             PostManagers postManager = new PostManagers()
             {
-                Id = manager.Id,
-                Name = manager.Name,
-                HospitalID = manager.HospitalID,
-                DateofBirth = manager.DateofBirth,
-                JobDescription = manager.JobDescription,
-                Address = manager.Address,
-                Email = manager.Email,
-                PhoneNumber = manager.PhoneNumber
+                Id = tempman.Id,
+                Name = tempman.Name,
+                HospitalID = tempman.HospitalID,
+                DateofBirth = tempman.DateofBirth,
+                JobDescription = tempman.JobDescription,
+                Address = tempman.Address,
+                Email = tempman.Email,
+                PhoneNumber = tempman.PhoneNumber
             };
 
             return Ok(postManager);
@@ -127,33 +117,22 @@ namespace VccMgntSys.Controllers
                 return NotFound();
             }
 
-            Staff staff = new Staff()
-            {
-                Name = tempsta.Name,
-                Address = tempsta.Address,
-                DateofBirth = tempsta.DateofBirth,
-                Email = tempsta.Email,
-                HospitalId = tempsta.HospitalId,
-                JobDescription = tempsta.JobDescription,
-                Password = tempsta.Password,
-                PhoneNumber = tempsta.PhoneNumber,
-                CitizenId = tempsta.CitizenId,
-            };
+            tempsta.isApproved = true;
 
-            await this.mainDatabase.staffs.AddAsync(staff);
+            mainDatabase.Entry(tempsta).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await this.mainDatabase.SaveChangesAsync();
 
             PostStaff postStaff = new PostStaff()
             {
-                DateofBirth = staff.DateofBirth,
-                Name = staff.Name,
-                JobDescription = staff.JobDescription,
-                Address = staff.Address,
-                CitizenId = staff.CitizenId,
-                Email = staff.Email,
-                HospitalId = staff.HospitalId,
-                Id = staff.Id,
-                PhoneNumber = staff.PhoneNumber
+                DateofBirth = tempsta.DateofBirth,
+                Name = tempsta.Name,
+                JobDescription = tempsta.JobDescription,
+                Address = tempsta.Address,
+                CitizenId = tempsta.CitizenId,
+                Email = tempsta.Email,
+                HospitalId = tempsta.HospitalId,
+                Id = tempsta.Id,
+                PhoneNumber = tempsta.PhoneNumber
             };
 
             return Ok(postStaff);
@@ -209,32 +188,20 @@ namespace VccMgntSys.Controllers
                     return NotFound();
                 }
 
-                Admin admin = new Admin()
-                {
-                    Name = tempadmin.Name,
-                    Address = tempadmin.Address,
-                    DateofBirth = tempadmin.DateofBirth,
-                    Email = tempadmin.Email,
-                    JobDescription = tempadmin.JobDescription,
-                    Password = tempadmin.Password,
-                    StringCitizenID = tempadmin.StringCitizenID,
-                    PhoneNumber = tempadmin.PhoneNumber,
-                };
-
-                await this.mainDatabase.admins.AddAsync(admin);
+                mainDatabase.Entry(tempadmin).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 await this.mainDatabase.SaveChangesAsync();
 
                 PostAdmin postAdmin = new PostAdmin()
                 {
-                    StringCitizenID = admin.StringCitizenID,
+                    StringCitizenID = tempadmin.StringCitizenID,
                     IsSuperAdmin = false,
-                    Address = admin.Address,
-                    DateofBirth = admin.DateofBirth,
-                    Email = admin.Email,
-                    Id = admin.Id,
-                    JobDescription = admin.JobDescription,
-                    Name = admin.Name,
-                    PhoneNumber = admin.PhoneNumber
+                    Address = tempadmin.Address,
+                    DateofBirth = tempadmin.DateofBirth,
+                    Email = tempadmin.Email,
+                    Id = tempadmin.Id,
+                    JobDescription = tempadmin.JobDescription,
+                    Name = tempadmin.Name,
+                    PhoneNumber = tempadmin.PhoneNumber
                 };
 
                 return Ok(postAdmin);
@@ -342,70 +309,5 @@ namespace VccMgntSys.Controllers
                 return BadRequest("Admin is not superadmin");
             }
         }
-        /*
-        [HttpGet]
-        [Route("makethesuperadmin")]
-
-        public async Task<IActionResult> MaketheFirstSuperAdmin()
-        {
-            Admin superAdmin = new Admin()
-            {
-                Name = "The Admin",
-                DateofBirth = "01/01/1998",
-                Address = "Faculty of Engineering",
-                IsSuperAdmin = true,
-                Email = "superadmin@gmail.com",
-                JobDescription = "The Super Admin",
-                Password = "Admin123",
-                PhoneNumber = 125478963,
-                StringCitizenID = "123654789"
-            };
-
-            await mainDatabase.admins.AddAsync(superAdmin);
-            await this.mainDatabase.SaveChangesAsync();
-            return Ok();
-        }
-
-        
-        public void ApproveAdmin()
-        {
-
-        }
-
-        public void ApproveManager()
-        {
-
-        }
-
-        public void ApproveStaff()
-        {
-
-        }
-
-        public void ChangeCitizenData()
-        {
-
-        }
-
-        public void ChangeAdminData()
-        {
-
-        }
-
-        public void ChangeManagerData()
-        {
-
-        }
-
-        public void ChangeStaffData()
-        {
-
-        }
-
-        public void DeletePrograms()
-        {
-
-        }
-        */
     }
 }

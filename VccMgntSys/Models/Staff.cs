@@ -26,6 +26,8 @@ namespace VccMgntSys.Models
 
         public long PhoneNumber { get; set; }
 
+        public bool? isApproved { get; set; }
+
         public virtual ICollection<VaccineProgram>? VaccinePrograms { get; set; }
 
         [NotMapped]

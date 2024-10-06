@@ -23,6 +23,8 @@ namespace VccMgntSys.Models
 
         public String HospitalID { get; set; }
 
+        public bool? isApproved { get; set; }
+
         public Manager()
         {
 

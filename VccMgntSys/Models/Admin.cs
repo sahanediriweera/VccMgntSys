@@ -25,6 +25,8 @@ namespace VccMgntSys.Models
 
         public String StringCitizenID { get; set; }
 
+        public bool? isApproved { get; set; }
+
         public Admin()
         {
         }

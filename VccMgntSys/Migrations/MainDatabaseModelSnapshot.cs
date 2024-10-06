@@ -107,6 +107,9 @@ namespace VccMgntSys.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool?>("isApproved")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("Admin");
@@ -162,6 +165,9 @@ namespace VccMgntSys.Migrations
                     b.Property<string>("VaccinationDate")
                         .HasColumnType("text");
 
+                    b.Property<bool?>("isApproved")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("citizens");
@@ -203,6 +209,9 @@ namespace VccMgntSys.Migrations
 
                     b.Property<long>("PhoneNumber")
                         .HasColumnType("bigint");
+
+                    b.Property<bool?>("isApproved")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -277,6 +286,9 @@ namespace VccMgntSys.Migrations
 
                     b.Property<long>("PhoneNumber")
                         .HasColumnType("bigint");
+
+                    b.Property<bool?>("isApproved")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

@@ -33,6 +33,8 @@ namespace VccMgntSys.Models
 
         public bool? Pending { get; set; }
 
+        public bool? isApproved { get; set; }
+
         public virtual ICollection<VaccineProgram>? VaccineProgram { get; set; }
 
         public Citizen()
