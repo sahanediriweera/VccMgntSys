@@ -188,6 +188,8 @@ namespace VccMgntSys.Controllers
                     return NotFound();
                 }
 
+                tempadmin.isApproved = true;
+
                 mainDatabase.Entry(tempadmin).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 await this.mainDatabase.SaveChangesAsync();
 
