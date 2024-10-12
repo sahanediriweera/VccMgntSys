@@ -132,8 +132,6 @@ namespace VccMgntSys.Controllers
                 return BadRequest("Invalid credentials");
             }
 
-            if (citizen.isApproved != true) return BadRequest("Not Approved");
-
             return Ok(citizen.Id);
         }
     }
