@@ -55,12 +55,12 @@ namespace VccMgntSys.Controllers
             return Ok(citizen);
         }
 
-        [HttpPost]
-        [Route("GetVaccineDate")]
-        public async Task<IActionResult> VaccineDate(GetDetails getDetails)
+        [HttpGet]
+        [Route("GetVaccineDate/{id}")]
+        public async Task<IActionResult> VaccineDate(Guid id)
         {
 
-            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
+            var citizen = await this.mainDatabase.citizens.FindAsync(id);
 
             if(citizen == null)
             {
@@ -71,7 +71,7 @@ namespace VccMgntSys.Controllers
 
             if (date == null || date == "")
             {
-                return NotFound("No vaccination date");
+                return Ok("No vaccination date");
             }
 
             try
