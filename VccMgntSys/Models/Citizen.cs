@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace VccMgntSys.Models
 {
@@ -35,6 +36,7 @@ namespace VccMgntSys.Models
 
         public bool? isApproved { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<VaccineProgram>? VaccineProgram { get; set; }
 
         public Citizen()
