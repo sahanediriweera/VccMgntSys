@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VccMgntSys.Models;
-using System.Data;
 
 namespace VccMgntSys.Controllers
 {
@@ -16,15 +15,16 @@ namespace VccMgntSys.Controllers
             this.mainDatabase = mainDatabase;
         }
 
-        [HttpPost]
-        [Route("GetDetails")]
-        public async Task<IActionResult> ViewCitizenDetails(GetDetails getDetails)
+        [HttpGet]
+        [Route("GetDetails/{id}")]
+        public async Task<IActionResult> ViewCitizenDetails(Guid id)
         {
             ViewCitizenDetails viewCitizenDetails = new ViewCitizenDetails();
 
-            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
+            var citizen = await this.mainDatabase.citizens.FindAsync(id);
 
-            if(citizen == null) { return NotFound(); }
+            if (citizen == null) { return NotFound(); }
+
             viewCitizenDetails.CitizenID = citizen.CitizenID;
             viewCitizenDetails.Name = citizen.Name;
             viewCitizenDetails.Address = citizen.Address;
@@ -54,6 +54,7 @@ namespace VccMgntSys.Controllers
             await mainDatabase.SaveChangesAsync();
             return Ok(citizen);
         }
+
         [HttpPost]
         [Route("GetVaccineDate")]
         public async Task<IActionResult> VaccineDate(GetDetails getDetails)
