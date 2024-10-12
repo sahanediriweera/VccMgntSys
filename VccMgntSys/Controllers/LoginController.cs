@@ -41,6 +41,9 @@ namespace VccMgntSys.Controllers
             {
                 return BadRequest("Invalid credentials");
             }
+
+            if (!manager.isApproved != true) return BadRequest("Not Approved");
+            
             return Ok(manager.Id);
         }
 
@@ -69,6 +72,9 @@ namespace VccMgntSys.Controllers
             {
                 return BadRequest("Invalid credentials");
             }
+
+            if (!staff.isApproved != true) return BadRequest("Not Approved");
+
             return Ok(staff.Id);
         }
         [HttpPost]
@@ -95,6 +101,9 @@ namespace VccMgntSys.Controllers
             {
                 return BadRequest("Invalid credentials");
             }
+
+            if (!admin.isApproved != true) return BadRequest("Not Approved");
+
             return Ok(admin.Id);
         }
         [HttpPost]
@@ -122,6 +131,9 @@ namespace VccMgntSys.Controllers
             {
                 return BadRequest("Invalid credentials");
             }
+
+            if (!citizen.isApproved != true) return BadRequest("Not Approved");
+
             return Ok(citizen.Id);
         }
     }

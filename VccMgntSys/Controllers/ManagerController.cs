@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using VccMgntSys.Mail_System;
 using VccMgntSys.Models;
+using VccMgntSys.Models.CreateProgram;
 
 namespace VccMgntSys.Controllers
 {
@@ -16,6 +17,69 @@ namespace VccMgntSys.Controllers
             this.mainDatabase = mainDatabase;
             this.mailService = mailService;
         }
+
+        [HttpGet]
+        [Route("createprogram")]
+        public async Task<IActionResult> GetCreateProgramDetails()
+        {
+            List<Citizen> citizens = await mainDatabase.citizens.ToListAsync();
+
+            List<Staff> staffs = await mainDatabase.staffs.ToListAsync();
+
+            List<VaccineBatch> batches = new List<VaccineBatch>();
+
+            List<VaccinationDetails> vaccinationDetails = new List<VaccinationDetails>();
+
+            List<StaffDetails> staffDetails = new List<StaffDetails>();
+
+            List<CitizenDetails> citizenDetails = new List<CitizenDetails>();
+
+            foreach (Citizen citizen in citizens) {
+                CitizenDetails c = new CitizenDetails();
+
+                c.Id = citizen.Id;
+                c.Name = citizen.Name;
+                c.EmailAddress = citizen.EmailAddress;
+                c.CitizenID = citizen.CitizenID;
+                c.PhoneNumber = citizen.PhoneNumber;
+
+                citizenDetails.Add(c);
+            }
+
+            foreach(Staff staff in staffs)
+            {
+                StaffDetails s = new StaffDetails();
+
+                s.Id = staff.Id;
+                s.Name = staff.Name;
+                s.DateofBirth = staff.DateofBirth;
+                s.HospitalId = staff.HospitalId;
+                s.JobDescription = staff.JobDescription;
+
+                staffDetails.Add(s);
+            }
+
+            foreach(VaccineBatch batch in batches)
+            {
+                VaccinationDetails v = new VaccinationDetails();
+
+                v.Id = batch.Id;
+                v.Type = batch.Type;
+                v.ExpirationDate = batch.ExpirationDate;
+                v.ProducedDate = batch.ProducedDate;
+                v.BatchId = batch.BatchId;
+
+                vaccinationDetails.Add(v);
+            }
+
+            GetCreateProgramData getCreateProgramData = new GetCreateProgramData();
+            getCreateProgramData.StaffDetails = staffDetails;
+            getCreateProgramData.VaccinationDetails = vaccinationDetails;
+            getCreateProgramData.CitizenDetails = citizenDetails;
+
+            return Ok(getCreateProgramData);
+        }
+
         
         [HttpPost]
         [Route("createprogram")]
