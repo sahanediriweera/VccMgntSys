@@ -26,7 +26,7 @@ namespace VccMgntSys.Controllers
 
             List<Staff> staffs = await mainDatabase.staffs.ToListAsync();
 
-            List<VaccineBatch> batches = new List<VaccineBatch>();
+            List<VaccineBatch> batches = await mainDatabase.vaccineBatches.ToListAsync();
 
             List<VaccinationDetails> vaccinationDetails = new List<VaccinationDetails>();
 
