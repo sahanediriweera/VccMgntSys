@@ -155,6 +155,52 @@ namespace VccMgntSys.Controllers
         [Route("citizenvaccineadd")]
         public async Task<IActionResult> AddVaccineProgramCitizen(UpdateCitizenProgram updateCitizenProgram)
         {
+            // Find the citizen and vaccine program
+            Citizen? citizen = await this.mainDatabase.citizens.FindAsync(updateCitizenProgram.Id);
+            VaccineProgram? vaccineProgram = await this.mainDatabase.vaccinePrograms.FindAsync(updateCitizenProgram.VaccineProgramID);
+
+            // Validate citizen and vaccine program existence
+            if (citizen == null || vaccineProgram == null)
+            {
+                return BadRequest("Citizen or Vaccine Program not found.");
+            }
+
+            // Get current date
+            DateTime date = DateTime.Today;
+
+            // Initialize vaccine programs if null and add the vaccine program to the citizen
+            if (citizen.VaccineProgram == null)
+            {
+                citizen.VaccineProgram = new List<VaccineProgram>();
+            }
+            citizen.VaccineProgram.Add(vaccineProgram);
+
+            // Increment the vaccination count
+            citizen.VaccinationCount += 1;
+
+            // Update the vaccination date, check if it's null
+            if (string.IsNullOrEmpty(citizen.VaccinationDate))
+            {
+                citizen.VaccinationDate = date.ToString();
+            }
+            else
+            {
+                citizen.VaccinationDate += "," + date.ToString();
+            }
+
+            // Mark the citizen entity as modified and save changes
+            this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await this.mainDatabase.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+        /*
+        [HttpPost]
+        [Route("citizenvaccineadd")]
+        public async Task<IActionResult> AddVaccineProgramCitizen(UpdateCitizenProgram updateCitizenProgram)
+        {
             Citizen? citizen = await this.mainDatabase.citizens.FindAsync(updateCitizenProgram.Id);
 
             VaccineProgram? vaccineProgram = await this.mainDatabase.vaccinePrograms.FindAsync(updateCitizenProgram.VaccineProgramID);
@@ -169,7 +215,7 @@ namespace VccMgntSys.Controllers
             this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await this.mainDatabase.SaveChangesAsync();
             return Ok();
-        }
+        }*/
 
         /*
         public void NextVaccination()

@@ -219,20 +219,52 @@ namespace VccMgntSys.Controllers
 
         [HttpDelete]
         [Route("programid")]
-
         public async Task<IActionResult> DeleteProgram(GetDetails getDetails)
         {
-            var program = await this.mainDatabase.vaccinePrograms.FindAsync(getDetails.id);
+            var program = await this.mainDatabase.vaccinePrograms
+                .Include(vp => vp.Citizens)
+                .Include(vp => vp.Staffs)
+                .Include(vp => vp.VaccineBatches)
+                .Include(vp => vp.Manager)
+                .FirstOrDefaultAsync(vp => vp.Id == getDetails.id);
 
-            if (program == null) 
-            { 
-                return NotFound(); 
+            if (program == null)
+            {
+                return NotFound();
+            }
+
+            // Clear the relations manually
+            if (program.Citizens != null)
+            {
+                foreach (var citizen in program.Citizens.ToList())
+                {
+                    citizen.VaccineProgram.Remove(program);
+                }
+            }
+
+            if (program.Staffs != null)
+            {
+                foreach (var staff in program.Staffs.ToList())
+                {
+                    staff.VaccinePrograms.Remove(program);
+                }
+            }
+
+            if (program.VaccineBatches != null)
+            {
+                foreach (var vaccineBatch in program.VaccineBatches.ToList())
+                {
+                    vaccineBatch.VaccinePrograms.Remove(program);
+                }
             }
 
             this.mainDatabase.vaccinePrograms.Remove(program);
 
+            await this.mainDatabase.SaveChangesAsync();
+
             return Ok("Program Deleted");
         }
+
 
         [HttpGet]
         [Route("realAdmins")]
