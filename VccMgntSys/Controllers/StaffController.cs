@@ -54,47 +54,41 @@ namespace VccMgntSys.Controllers
         [HttpGet]
         [Route("GetPatientDetails")]
 
-        public async Task<IActionResult> GetCitizenDetails(long patientguid)
+        public async Task<IActionResult> GetCitizenDetails(long citizenID)
         {
-            List<Citizen> citizens = await this.mainDatabase.citizens.ToListAsync();
+            // Use LINQ to find the citizen by CitizenID
+            Citizen? citizen = await this.mainDatabase.citizens
+                .FirstOrDefaultAsync(c => c.CitizenID == citizenID);
 
-            Citizen? citizen1 = null;
-
-            foreach(Citizen citizen in citizens)
-            {
-                if(citizen.CitizenID == patientguid)
-                {
-                    citizen1 = citizen;
-                }
-            }
-
-            if (citizen1 == null)
+            // Check if the citizen is found
+            if (citizen == null)
             {
                 return BadRequest("ID Doesn't Exist");
             }
 
+            // Create the PostCitizenDetails object to return
             PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
             {
-                Id = citizen1.Id,
-                CitizenID = citizen1.CitizenID,
-                Name = citizen1.Name,
-                PhoneNumber = citizen1.PhoneNumber,
-                Address = citizen1.Address,
-                BirthDate = citizen1.BirthDate,
-                EmailAddress = citizen1.EmailAddress,
-                OtherDiseases = citizen1.OtherDiseases,
-                VaccinationCount = citizen1.VaccinationCount,
-                Pending = citizen1.Pending,
-                ReportData = citizen1.ReportData,
-                Status = citizen1.Status,
-                VaccinationDate = citizen1.VaccinationDate,
-                VaccineProgram = citizen1.VaccineProgram,
+                Id = citizen.Id,
+                CitizenID = citizen.CitizenID,
+                Name = citizen.Name,
+                PhoneNumber = citizen.PhoneNumber,
+                Address = citizen.Address,
+                BirthDate = citizen.BirthDate,
+                EmailAddress = citizen.EmailAddress,
+                OtherDiseases = citizen.OtherDiseases,
+                VaccinationCount = citizen.VaccinationCount,
+                Pending = citizen.Pending,
+                ReportData = citizen.ReportData,
+                Status = citizen.Status,
+                VaccinationDate = citizen.VaccinationDate,
+                VaccineProgram = citizen.VaccineProgram,
             };
 
+            // Return the citizen details
             return Ok(postCitizenDetails);
-            
-
         }
+
 
         [HttpPost]
         [Route("updatecitizendata")]
