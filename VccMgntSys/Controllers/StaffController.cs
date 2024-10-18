@@ -116,7 +116,7 @@ namespace VccMgntSys.Controllers
 
         public async Task<IActionResult> UpdatePatientVaccination(GetDetails getDetails)
         {
-            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails);
+            var citizen = await this.mainDatabase.citizens.FindAsync(getDetails.id);
 
             if(citizen == null)
             {
