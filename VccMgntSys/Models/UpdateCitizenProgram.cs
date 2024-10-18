@@ -2,7 +2,7 @@
 {
     public class UpdateCitizenProgram
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public Guid VaccineProgramID { get; set; }
     }

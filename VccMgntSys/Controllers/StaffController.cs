@@ -156,7 +156,7 @@ namespace VccMgntSys.Controllers
         public async Task<IActionResult> AddVaccineProgramCitizen(UpdateCitizenProgram updateCitizenProgram)
         {
             // Find the citizen and vaccine program
-            Citizen? citizen = await this.mainDatabase.citizens.FindAsync(updateCitizenProgram.Id);
+            Citizen? citizen = await this.mainDatabase.citizens.FirstOrDefaultAsync(c => c.CitizenID == updateCitizenProgram.Id);
             VaccineProgram? vaccineProgram = await this.mainDatabase.vaccinePrograms.FindAsync(updateCitizenProgram.VaccineProgramID);
 
             // Validate citizen and vaccine program existence
@@ -193,6 +193,18 @@ namespace VccMgntSys.Controllers
             await this.mainDatabase.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("allprograms")]
+
+        public async Task<IActionResult> AllPrograms()
+        {
+            List<VaccineProgram> programs = await this.mainDatabase.vaccinePrograms.ToListAsync();
+
+            if(programs == null || programs.Count == 0) { return BadRequest(string.Empty); }
+
+            return Ok(programs);
         }
 
 
