@@ -343,5 +343,14 @@ namespace VccMgntSys.Controllers
                 return BadRequest("Admin is not superadmin");
             }
         }
+
+        [HttpGet]
+        [Route("all-programs")]
+        public async Task<IActionResult> getAllPrograms()
+        {
+            List<VaccineProgram> vaccinePrograms = await this.mainDatabase.vaccinePrograms.ToListAsync();
+
+            return Ok(vaccinePrograms);
+        }
     }
 }
