@@ -256,46 +256,18 @@ namespace VccMgntSys.Controllers
 
             foreach(var citizen in citizens)
             {
-                if(citizen.Pending == true)
+                try
                 {
 
-                }
 
-                else
-                {
-                    if(citizen.VaccinationCount == 0)
+                    if (citizen.Pending == true)
                     {
-                        PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
-                        {
-                            VaccinationCount = citizen.VaccinationCount,
-                            Address = citizen.Address, 
-                            BirthDate = citizen.BirthDate,
-                            CitizenID = citizen.CitizenID,
-                            EmailAddress = citizen.EmailAddress,
-                            Id = citizen.Id,
-                            Name = citizen.Name,
-                            OtherDiseases = citizen.OtherDiseases,
-                            Pending = true,
-                            PhoneNumber = citizen.PhoneNumber,
-                            ReportData = citizen.ReportData,
-                            Status = citizen.Status,
-                            VaccinationDate = citizen.VaccinationDate,
-                            VaccineProgram = citizen.VaccineProgram
-                        };
-                        selectedCitizens.Add(postCitizenDetails);
+
                     }
 
                     else
                     {
-                        String dates = citizen.VaccinationDate;
-                        String[] vaccinationDates = dates.Split(",");
-                        dates = vaccinationDates[vaccinationDates.Length - 1];
-
-                        DateTime date1 = Convert.ToDateTime(dates);
-                        DateTime date2 = DateTime.Today;
-                        int result = DateTime.Compare(date2, date1);
-
-                        if(result > 30)
+                        if (citizen.VaccinationCount == 0)
                         {
                             PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
                             {
@@ -316,7 +288,45 @@ namespace VccMgntSys.Controllers
                             };
                             selectedCitizens.Add(postCitizenDetails);
                         }
+
+                        else
+                        {
+                            String dates = citizen.VaccinationDate;
+                            String[] vaccinationDates = dates.Split(",");
+                            dates = vaccinationDates[vaccinationDates.Length - 1];
+
+                            DateTime date1 = Convert.ToDateTime(dates);
+                            DateTime date2 = DateTime.Today;
+                            TimeSpan timeDifference = date2 - date1;
+
+                            if (timeDifference.Days > 30)
+                            {
+                                PostCitizenDetails postCitizenDetails = new PostCitizenDetails()
+                                {
+                                    VaccinationCount = citizen.VaccinationCount,
+                                    Address = citizen.Address,
+                                    BirthDate = citizen.BirthDate,
+                                    CitizenID = citizen.CitizenID,
+                                    EmailAddress = citizen.EmailAddress,
+                                    Id = citizen.Id,
+                                    Name = citizen.Name,
+                                    OtherDiseases = citizen.OtherDiseases,
+                                    Pending = true,
+                                    PhoneNumber = citizen.PhoneNumber,
+                                    ReportData = citizen.ReportData,
+                                    Status = citizen.Status,
+                                    VaccinationDate = citizen.VaccinationDate,
+                                    VaccineProgram = citizen.VaccineProgram
+                                };
+                                selectedCitizens.Add(postCitizenDetails);
+                            }
+                        }
                     }
+
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    continue;
                 }
 
             }
