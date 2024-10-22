@@ -218,15 +218,15 @@ namespace VccMgntSys.Controllers
         }
 
         [HttpDelete]
-        [Route("programid")]
-        public async Task<IActionResult> DeleteProgram(GetDetails getDetails)
+        [Route("programid/{id}")]
+        public async Task<IActionResult> DeleteProgram(Guid id)
         {
             var program = await this.mainDatabase.vaccinePrograms
                 .Include(vp => vp.Citizens)
                 .Include(vp => vp.Staffs)
                 .Include(vp => vp.VaccineBatches)
                 .Include(vp => vp.Manager)
-                .FirstOrDefaultAsync(vp => vp.Id == getDetails.id);
+                .FirstOrDefaultAsync(vp => vp.Id == id);
 
             if (program == null)
             {
