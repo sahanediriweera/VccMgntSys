@@ -186,7 +186,7 @@ namespace VccMgntSys.Controllers
                     Subject = MailContent.getMailSubject(),
                     ToEmail = citizen.EmailAddress
                 };
-
+                /*
                 try
                 {
                     await mailService.SendMailAsync(mailRequest);
@@ -196,6 +196,7 @@ namespace VccMgntSys.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
+                */
             }
             await this.mainDatabase.vaccinePrograms.AddAsync(vaccineProgram);
             await this.mainDatabase.SaveChangesAsync();

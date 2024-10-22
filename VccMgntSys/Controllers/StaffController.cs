@@ -151,6 +151,7 @@ namespace VccMgntSys.Controllers
             return Ok(vaccineBatch);
         }
 
+        /*
         [HttpPost]
         [Route("citizenvaccineadd")]
         public async Task<IActionResult> AddVaccineProgramCitizen(UpdateCitizenProgram updateCitizenProgram)
@@ -194,6 +195,64 @@ namespace VccMgntSys.Controllers
 
             return Ok();
         }
+
+        */
+
+        [HttpPost]
+        [Route("citizenvaccineadd")]
+        public async Task<IActionResult> AddVaccineProgramCitizen(UpdateCitizenProgram updateCitizenProgram)
+        {
+            // Find the citizen and vaccine program
+            Citizen? citizen = await this.mainDatabase.citizens
+                                .Include(c => c.VaccineProgram) // Ensure vaccine programs are included
+                                .FirstOrDefaultAsync(c => c.CitizenID == updateCitizenProgram.Id);
+
+            VaccineProgram? vaccineProgram = await this.mainDatabase.vaccinePrograms
+                                            .FindAsync(updateCitizenProgram.VaccineProgramID);
+
+            // Validate citizen and vaccine program existence
+            if (citizen == null || vaccineProgram == null)
+            {
+                return BadRequest("Citizen or Vaccine Program not found.");
+            }
+
+            // Check if the vaccine program is already associated with the citizen
+            if (citizen.VaccineProgram != null && citizen.VaccineProgram.Any(vp => vp.Id == vaccineProgram.Id))
+            {
+                return BadRequest("Vaccine Program already assigned to the citizen.");
+            }
+
+            // Get current date
+            DateTime date = DateTime.Today;
+
+            // Initialize vaccine programs if null and add the vaccine program to the citizen
+            if (citizen.VaccineProgram == null)
+            {
+                citizen.VaccineProgram = new List<VaccineProgram>();
+            }
+
+            citizen.VaccineProgram.Add(vaccineProgram);
+
+            // Increment the vaccination count
+            citizen.VaccinationCount += 1;
+
+            // Update the vaccination date, check if it's null
+            if (string.IsNullOrEmpty(citizen.VaccinationDate))
+            {
+                citizen.VaccinationDate = date.ToString();
+            }
+            else
+            {
+                citizen.VaccinationDate += "," + date.ToString();
+            }
+
+            // Mark the citizen entity as modified and save changes
+            this.mainDatabase.Entry(citizen).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await this.mainDatabase.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
         [HttpGet]
         [Route("allprograms")]
